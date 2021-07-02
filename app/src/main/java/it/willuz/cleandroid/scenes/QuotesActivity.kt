@@ -1,14 +1,18 @@
 package it.willuz.cleandroid.scenes
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuotesBinding
 import it.willuz.cleandroid.entity.Quote
+import it.willuz.cleandroid.scenes.detail.QuoteDetailsActivity
 import it.willuz.cleandroid.util.BaseActivity
 import it.willuz.cleandroid.util.QuotesAdapter
+import it.willuz.cleandroid.util.QuotesCallbacks
 import it.willuz.cleandroid.util.visible
 
-class QuotesActivity : BaseActivity<QuotesViewModel>() {
+class QuotesActivity : BaseActivity<QuotesViewModel>(), QuotesCallbacks {
 
     private var adapter = QuotesAdapter()
     private lateinit var binding: ActivityQuotesBinding
@@ -28,6 +32,7 @@ class QuotesActivity : BaseActivity<QuotesViewModel>() {
 
     override fun onStart() {
         super.onStart()
+        adapter.callbacks = this
         binding.recycler.adapter = adapter
         binding.refreshButton.setOnClickListener { viewModel.requestRefresh() }
     }
@@ -35,6 +40,7 @@ class QuotesActivity : BaseActivity<QuotesViewModel>() {
     override fun onStop() {
         super.onStop()
         binding.refreshButton.setOnClickListener(null)
+        adapter.callbacks = null
         binding.recycler.adapter = null
     }
 
@@ -44,7 +50,13 @@ class QuotesActivity : BaseActivity<QuotesViewModel>() {
         binding.empty.visible(state.emptyUiVisible)
     }
 
-    private fun onQuotes(quotes: List<Quote>) {
+    private fun onQuotes(quotes: List<QuoteUiItem>) {
         adapter.setItems(quotes)
+    }
+
+    override fun onQuoteSelected(sender: QuotesAdapter, quote: QuoteUiItem) {
+        Intent(this, QuoteDetailsActivity::class.java).apply {
+            putExtra("extra_quote_id", quote.id)
+        }.also { startActivity(it) }
     }
 }

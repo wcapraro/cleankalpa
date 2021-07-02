@@ -2,6 +2,9 @@ package it.willuz.cleandroid
 
 import android.app.Application
 import it.willuz.cleandroid.entity.db.LocalDatabase
+import it.willuz.cleandroid.util.DBData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CleanDroidApp: Application() {
     override fun onCreate() {
@@ -9,5 +12,12 @@ class CleanDroidApp: Application() {
         initDb()
     }
 
-    private fun initDb() = LocalDatabase.getInstance(this)
+    private fun initDb() {
+        GlobalScope.launch {
+            LocalDatabase.getInstance(this@CleanDroidApp).apply {
+                authorDao().insertAuthors(*DBData.authorz.toTypedArray())
+                quotesDao().insertQuotes(*DBData.quotez.toTypedArray())
+            }
+        }
+    }
 }

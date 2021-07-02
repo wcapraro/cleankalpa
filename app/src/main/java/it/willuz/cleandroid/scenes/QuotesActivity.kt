@@ -19,7 +19,7 @@ class QuotesActivity : BaseActivity<QuotesViewModel>() {
         binding = ActivityQuotesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this, QuotesViewModelFactory())
+        viewModel = ViewModelProvider(this, QuotesViewModelFactory(this))
             .get(QuotesViewModel::class.java)
 
         viewModel.viewState.observe(this) { onViewState(it) }

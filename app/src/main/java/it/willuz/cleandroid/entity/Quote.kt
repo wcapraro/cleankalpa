@@ -1,5 +1,11 @@
 package it.willuz.cleandroid.entity
 
-import java.util.Date
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class Quote(val message: String, val author: Author, val date: Date)
+@Entity
+data class Quote(
+    @PrimaryKey val id: Int,
+    val message: String,
+    val author: Int,
+    val timestamp: Long)

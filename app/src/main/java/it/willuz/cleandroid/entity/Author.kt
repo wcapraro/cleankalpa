@@ -1,3 +1,11 @@
 package it.willuz.cleandroid.entity
 
-data class Author(val firstName: String, val lastName: String, val role: Role)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Author(
+    @PrimaryKey val id: Int,
+    val firstName: String,
+    val lastName: String,
+    val role: String)

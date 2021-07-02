@@ -1,12 +1,20 @@
 package it.willuz.cleandroid.scenes
 
+import android.content.Context
 import androidx.lifecycle.*
 import it.willuz.cleandroid.entity.Quote
+import it.willuz.cleandroid.entity.db.LocalDatabase
+import it.willuz.cleandroid.repository.LocalDataSource
+import it.willuz.cleandroid.repository.QuotesRepository
+import it.willuz.cleandroid.util.DispatcherManager
+import it.willuz.cleandroid.util.IDispatcherManager
 import it.willuz.cleandroid.util.reassign
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class QuotesViewModel: ViewModel() {
+class QuotesViewModel(
+    private val dispatcher: IDispatcherManager,
+    private val repository: LocalDataSource
+): ViewModel() {
 
     private var _viewState = MutableLiveData(QuotesViewState())
     val viewState: LiveData<QuotesViewState> get() = _viewState
@@ -15,7 +23,7 @@ class QuotesViewModel: ViewModel() {
     val quotes: LiveData<List<Quote>> get() = _quotes
 
     fun requestRefresh() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher.background) {
             _viewState.reassign { it.loading(true) }
             val items = getQuotesSuspending(10)
             _quotes.postValue(items)
@@ -24,16 +32,18 @@ class QuotesViewModel: ViewModel() {
     }
 
     private suspend fun getQuotesSuspending(count: Int): List<Quote> {
-        // Simulate work
-        delay(3000L)
-        return emptyList()
+        val quotes = repository.getQuotes()
+        return if (quotes.size <= count) quotes else quotes.subList(0, count)
     }
 }
 
 @Suppress("UNCHECKED_CAST")
-class QuotesViewModelFactory: ViewModelProvider.Factory {
+class QuotesViewModelFactory(context: Context): ViewModelProvider.Factory {
+    private val db = LocalDatabase.getInstance(context)
+    private val repo = QuotesRepository(db.quotesDao(), db.authorDao())
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return QuotesViewModel() as T
+        return QuotesViewModel(DispatcherManager, repo) as T
     }
 
 }

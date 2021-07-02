@@ -11,6 +11,7 @@ data class QuotesViewState(val isLoading: Boolean = false, val emptyUiVisible: B
 
 sealed class QuotesEvents {
     object Noop: QuotesEvents()
+    data class QuoteDetail(val quoteId: Int): QuotesEvents()
 }
 
 data class QuoteUiItem(val id: Int, val authorId: Int, val quote: String, val author: String) {

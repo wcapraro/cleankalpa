@@ -23,6 +23,9 @@ class QuotesViewModel(
     private var _quotes = MutableLiveData(listOf<QuoteUiItem>())
     val quotes: LiveData<List<QuoteUiItem>> get() = _quotes
 
+//    private var _events: MutableLiveData<QuotesEvents> = MutableLiveData(QuotesEvents.Noop)
+//    val events: LiveData<QuotesEvents> get() = _events
+
     fun requestRefresh() {
         viewModelScope.launch(dispatcher.background) {
             _viewState.reassign { it.loading(true) }

@@ -44,7 +44,7 @@ class QuotesActivity : BaseActivity<QuotesViewModel>() {
         binding.empty.visible(state.emptyUiVisible)
     }
 
-    private fun onQuotes(quotes: List<Quote>) {
+    private fun onQuotes(quotes: List<QuoteUiItem>) {
         adapter.setItems(quotes)
     }
 }

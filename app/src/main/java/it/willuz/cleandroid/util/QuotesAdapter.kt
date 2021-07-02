@@ -5,13 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import it.willuz.cleandroid.R
 import it.willuz.cleandroid.entity.Quote
+import it.willuz.cleandroid.scenes.QuoteUiItem
 
 class QuotesAdapter: RecyclerView.Adapter<QuoteViewHolder>() {
 
-    private var items = mutableListOf<Quote>()
+    private var items = mutableListOf<QuoteUiItem>()
 
-    fun setItems(items: Collection<Quote>) {
+    fun setItems(items: Collection<QuoteUiItem>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -19,7 +21,7 @@ class QuotesAdapter: RecyclerView.Adapter<QuoteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false)
+        val view = inflater.inflate(R.layout.quote_item, parent, false)
         return QuoteViewHolder(view)
     }
 
@@ -32,12 +34,14 @@ class QuotesAdapter: RecyclerView.Adapter<QuoteViewHolder>() {
 
 class QuoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-    var boundItem: Quote? = null
+    var boundItem: QuoteUiItem? = null
 
-    private val text: TextView = itemView.findViewById(android.R.id.text1)
+    private val quote: TextView = itemView.findViewById(R.id.quote)
+    private val author: TextView = itemView.findViewById(R.id.author)
 
-    fun bind(item: Quote) {
+    fun bind(item: QuoteUiItem) {
         boundItem = item
-        text.text = item.toString()
+        quote.text = item.quote
+        author.text = item.author
     }
 }

@@ -2,7 +2,6 @@ package it.willuz.cleandroid.scenes
 
 import android.content.Context
 import androidx.lifecycle.*
-import it.willuz.cleandroid.entity.Quote
 import it.willuz.cleandroid.entity.db.LocalDatabase
 import it.willuz.cleandroid.repository.LocalDataSource
 import it.willuz.cleandroid.repository.QuotesRepository
@@ -21,8 +20,8 @@ class QuotesViewModel(
     private var _viewState = MutableLiveData(QuotesViewState())
     val viewState: LiveData<QuotesViewState> get() = _viewState
 
-    private var _quotes = MutableLiveData(listOf<Quote>())
-    val quotes: LiveData<List<Quote>> get() = _quotes
+    private var _quotes = MutableLiveData(listOf<QuoteUiItem>())
+    val quotes: LiveData<List<QuoteUiItem>> get() = _quotes
 
     fun requestRefresh() {
         viewModelScope.launch(dispatcher.background) {
@@ -33,9 +32,12 @@ class QuotesViewModel(
         }
     }
 
-    private suspend fun getQuotesSuspending(count: Int): List<Quote> {
-        val quotes = repository.getQuotes()
-        return if (quotes.size <= count) quotes else quotes.subList(0, count)
+    private suspend fun getQuotesSuspending(count: Int): List<QuoteUiItem> {
+        val quotes = repository.getQuotes().shuffled()
+        val items = quotes.mapNotNull {
+            QuoteUiItem.parse(repository.getAuthor(it.author), it)
+        }
+        return if (count < items.size) items.subList(0, count) else items
     }
 }
 

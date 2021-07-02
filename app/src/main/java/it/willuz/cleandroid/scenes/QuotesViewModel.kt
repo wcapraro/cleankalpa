@@ -16,6 +16,8 @@ class QuotesViewModel(
     private val repository: LocalDataSource
 ): ViewModel() {
 
+    private val maxQuotes = 5
+
     private var _viewState = MutableLiveData(QuotesViewState())
     val viewState: LiveData<QuotesViewState> get() = _viewState
 
@@ -25,7 +27,7 @@ class QuotesViewModel(
     fun requestRefresh() {
         viewModelScope.launch(dispatcher.background) {
             _viewState.reassign { it.loading(true) }
-            val items = getQuotesSuspending(10)
+            val items = getQuotesSuspending(maxQuotes)
             _quotes.postValue(items)
             _viewState.reassign { it.loading(false).empty(items.isEmpty()) }
         }

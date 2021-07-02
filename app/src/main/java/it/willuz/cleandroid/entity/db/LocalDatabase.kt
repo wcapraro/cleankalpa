@@ -14,14 +14,17 @@ interface QuotesDAO {
     @Query("SELECT * from QUOTE where id = :id")
     suspend fun getQuote(id: Int): Quote?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertReminders(vararg quotes: Quote)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertQuotes(vararg quotes: Quote)
 }
 
 @Dao
 interface AuthorDAO {
     @Query("SELECT * FROM AUTHOR where id = :id")
     suspend fun getAuthor(id: Int): Author?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAuthors(vararg authors: Author)
 }
 
 @Database(entities = [Quote::class, Author::class], version = 1)

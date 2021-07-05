@@ -1,4 +1,4 @@
-package it.willuz.cleandroid.repository
+package it.willuz.cleandroid.data.repository
 
 import it.willuz.cleandroid.entity.Author
 import it.willuz.cleandroid.entity.Quote

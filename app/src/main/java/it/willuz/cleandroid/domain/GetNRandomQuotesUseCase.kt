@@ -1,6 +1,6 @@
 package it.willuz.cleandroid.domain
 
-import it.willuz.cleandroid.repository.LocalDataSource
+import it.willuz.cleandroid.data.repository.LocalDataSource
 
 interface IGetRandomQuotesUseCase {
     suspend fun getRandomQuotes(n: Int): List<QuoteModel>

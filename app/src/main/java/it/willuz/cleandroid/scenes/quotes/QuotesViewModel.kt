@@ -1,10 +1,12 @@
-package it.willuz.cleandroid.scenes
+package it.willuz.cleandroid.scenes.quotes
 
 import android.content.Context
 import androidx.lifecycle.*
-import it.willuz.cleandroid.entity.db.LocalDatabase
-import it.willuz.cleandroid.repository.LocalDataSource
-import it.willuz.cleandroid.repository.QuotesRepository
+import it.willuz.cleandroid.data.db.LocalDatabase
+import it.willuz.cleandroid.domain.GetAuthorUseCase
+import it.willuz.cleandroid.domain.GetRandomQuotesUseCase
+import it.willuz.cleandroid.domain.IGetRandomQuotesUseCase
+import it.willuz.cleandroid.data.repository.QuotesRepository
 import it.willuz.cleandroid.util.DispatcherManager
 import it.willuz.cleandroid.util.IDispatcherManager
 import it.willuz.cleandroid.util.reassign
@@ -12,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class QuotesViewModel(
     private val dispatcher: IDispatcherManager,
-    private val repository: LocalDataSource
+    private val getQuotes: IGetRandomQuotesUseCase
 ): ViewModel() {
 
     private val maxQuotes = 5
@@ -36,11 +38,7 @@ class QuotesViewModel(
     }
 
     private suspend fun getQuotesSuspending(count: Int): List<QuoteUiItem> {
-        val quotes = repository.getQuotes().shuffled()
-        val items = quotes.mapNotNull {
-            QuoteUiItem.parse(repository.getAuthor(it.author), it)
-        }
-        return if (count < items.size) items.subList(0, count) else items
+        return getQuotes.getRandomQuotes(count).map { it.asUiItem() }
     }
 }
 
@@ -48,9 +46,10 @@ class QuotesViewModel(
 class QuotesViewModelFactory(context: Context): ViewModelProvider.Factory {
     private val db = LocalDatabase.getInstance(context)
     private val repo = QuotesRepository(db.quotesDao(), db.authorDao())
+    private val getQuotes = GetRandomQuotesUseCase(repo, GetAuthorUseCase(repo))
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return QuotesViewModel(DispatcherManager, repo) as T
+        return QuotesViewModel(DispatcherManager, getQuotes) as T
     }
 
 }

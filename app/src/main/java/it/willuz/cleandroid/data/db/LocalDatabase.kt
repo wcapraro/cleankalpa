@@ -1,4 +1,4 @@
-package it.willuz.cleandroid.entity.db
+package it.willuz.cleandroid.data.db
 
 import android.content.Context
 import androidx.room.*

@@ -3,11 +3,13 @@ package it.willuz.cleandroid.domain
 import it.willuz.cleandroid.entity.Author
 import it.willuz.cleandroid.entity.Quote
 import it.willuz.cleandroid.entity.Role
+import java.util.*
 
 fun Quote.asQuoteModel(author: AuthorModel): QuoteModel =
     QuoteModel(this.id,
         this.message,
-        author
+        author,
+        Date(this.timestamp)
     )
 
 fun Author.asAuthorModel(): AuthorModel =

@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CleanDroid">
         <activity android:name=".scenes.detail.QuoteDetailsActivity"></activity>
-        <activity android:name=".scenes.QuotesActivity">
+        <activity android:name=".scenes.quotes.QuotesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

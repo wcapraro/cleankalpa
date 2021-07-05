@@ -1,6 +1,6 @@
 package it.willuz.cleandroid.domain
 
-import it.willuz.cleandroid.repository.LocalDataSource
+import it.willuz.cleandroid.data.repository.LocalDataSource
 
 interface IGetQuoteDetailsUseCase {
     suspend fun getQuote(id: Int): QuoteModel?

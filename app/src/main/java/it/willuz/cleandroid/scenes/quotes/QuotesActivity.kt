@@ -1,15 +1,11 @@
-package it.willuz.cleandroid.scenes
+package it.willuz.cleandroid.scenes.quotes
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuotesBinding
-import it.willuz.cleandroid.entity.Quote
 import it.willuz.cleandroid.scenes.detail.QuoteDetailsActivity
 import it.willuz.cleandroid.util.BaseActivity
-import it.willuz.cleandroid.util.QuotesAdapter
-import it.willuz.cleandroid.util.QuotesCallbacks
 import it.willuz.cleandroid.util.visible
 
 class QuotesActivity : BaseActivity<QuotesViewModel>(), QuotesCallbacks {

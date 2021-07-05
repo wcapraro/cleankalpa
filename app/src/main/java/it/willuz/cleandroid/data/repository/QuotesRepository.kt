@@ -1,13 +1,14 @@
-package it.willuz.cleandroid.repository
+package it.willuz.cleandroid.data.repository
 
 import it.willuz.cleandroid.entity.Author
 import it.willuz.cleandroid.entity.Quote
-import it.willuz.cleandroid.entity.db.AuthorDAO
-import it.willuz.cleandroid.entity.db.QuotesDAO
+import it.willuz.cleandroid.data.db.AuthorDAO
+import it.willuz.cleandroid.data.db.QuotesDAO
 
 class QuotesRepository(
     private val quotesDAO: QuotesDAO,
-    private val authorDAO: AuthorDAO): LocalDataSource
+    private val authorDAO: AuthorDAO
+): LocalDataSource
 {
     override suspend fun getQuotes(): List<Quote> {
         return quotesDAO.getAllQuotes()

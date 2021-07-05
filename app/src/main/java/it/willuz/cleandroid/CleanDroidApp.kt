@@ -1,7 +1,7 @@
 package it.willuz.cleandroid
 
 import android.app.Application
-import it.willuz.cleandroid.entity.db.LocalDatabase
+import it.willuz.cleandroid.data.db.LocalDatabase
 import it.willuz.cleandroid.util.DBData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package it.willuz.cleandroid.util
+package it.willuz.cleandroid.scenes.quotes
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.willuz.cleandroid.R
-import it.willuz.cleandroid.entity.Quote
-import it.willuz.cleandroid.scenes.QuoteUiItem
-import java.lang.ref.WeakReference
 
 class QuotesAdapter: RecyclerView.Adapter<QuoteViewHolder>() {
 

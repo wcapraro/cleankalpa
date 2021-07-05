@@ -1,8 +1,8 @@
 package it.willuz.cleandroid.domain
 
-import it.willuz.cleandroid.entity.Author
-import it.willuz.cleandroid.entity.Quote
-import it.willuz.cleandroid.entity.Role
+import it.willuz.cleandroid.data.entity.Author
+import it.willuz.cleandroid.data.entity.Quote
+import it.willuz.cleandroid.data.entity.Role
 import java.util.*
 
 fun Quote.asQuoteModel(author: AuthorModel): QuoteModel =

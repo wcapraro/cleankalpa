@@ -1,7 +1,7 @@
 package it.willuz.cleandroid.data.repository
 
-import it.willuz.cleandroid.entity.Author
-import it.willuz.cleandroid.entity.Quote
+import it.willuz.cleandroid.data.entity.Author
+import it.willuz.cleandroid.data.entity.Quote
 
 interface LocalDataSource {
     suspend fun getQuotes(): List<Quote>

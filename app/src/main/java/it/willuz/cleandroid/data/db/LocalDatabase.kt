@@ -2,8 +2,8 @@ package it.willuz.cleandroid.data.db
 
 import android.content.Context
 import androidx.room.*
-import it.willuz.cleandroid.entity.Author
-import it.willuz.cleandroid.entity.Quote
+import it.willuz.cleandroid.data.entity.Author
+import it.willuz.cleandroid.data.entity.Quote
 
 @Dao
 interface QuotesDAO {

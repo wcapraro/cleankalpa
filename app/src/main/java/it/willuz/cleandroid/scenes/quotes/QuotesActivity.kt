@@ -1,12 +1,10 @@
 package it.willuz.cleandroid.scenes.quotes
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuotesBinding
 import it.willuz.cleandroid.navigation.Navigation
 import it.willuz.cleandroid.navigation.toIntent
-import it.willuz.cleandroid.scenes.detail.QuoteDetailsActivity
 import it.willuz.cleandroid.util.BaseActivity
 import it.willuz.cleandroid.util.visible
 

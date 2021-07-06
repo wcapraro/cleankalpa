@@ -1,13 +1,13 @@
 package it.willuz.cleandroid.scenes.detail
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuoteDetailsBinding
-import it.willuz.cleandroid.util.BaseActivity
 
-class QuoteDetailsActivity : BaseActivity<QuoteDetailsViewModel>() {
+class QuoteDetailsActivity : AppCompatActivity() {
 
-    override lateinit var viewModel: QuoteDetailsViewModel
+    private lateinit var viewModel: QuoteDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

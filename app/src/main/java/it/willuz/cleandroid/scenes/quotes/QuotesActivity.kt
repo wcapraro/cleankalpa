@@ -1,36 +1,30 @@
 package it.willuz.cleandroid.scenes.quotes
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuotesBinding
-import it.willuz.cleandroid.scenes.detail.QuoteDetailsActivity
-import it.willuz.cleandroid.util.BaseActivity
+import it.willuz.cleandroid.util.BaseViperActivity
 import it.willuz.cleandroid.util.visible
 
-class QuotesActivity : BaseActivity<QuotesViewModel>(), QuotesCallbacks {
+class QuotesActivity : BaseViperActivity<QuotesPresentationLogic>(), QuotesView, QuotesCallbacks {
 
     private var adapter = QuotesAdapter()
     private lateinit var binding: ActivityQuotesBinding
-    override lateinit var viewModel: QuotesViewModel
+
+    override fun instantiatePresenter(): QuotesPresentationLogic? {
+        return QuotesPresenter(this).also { it.initLifecycle() }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuotesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this, QuotesViewModelFactory(this))
-            .get(QuotesViewModel::class.java)
-
-        viewModel.viewState.observe(this) { onViewState(it) }
-        viewModel.quotes.observe(this) { onQuotes(it) }
     }
 
     override fun onStart() {
         super.onStart()
         adapter.callbacks = this
         binding.recycler.adapter = adapter
-        binding.refreshButton.setOnClickListener { viewModel.requestRefresh() }
+        binding.refreshButton.setOnClickListener { presenter?.refreshClicked() }
     }
 
     override fun onStop() {
@@ -40,19 +34,23 @@ class QuotesActivity : BaseActivity<QuotesViewModel>(), QuotesCallbacks {
         binding.recycler.adapter = null
     }
 
-    private fun onViewState(state: QuotesViewState) {
-        binding.recycler.visible(!state.emptyUiVisible)
-        binding.progress.visible(state.isLoading)
-        binding.empty.visible(state.emptyUiVisible)
+    override fun onQuotes(items: List<QuoteUiItem>) {
+        adapter.setItems(items)
     }
 
-    private fun onQuotes(quotes: List<QuoteUiItem>) {
-        adapter.setItems(quotes)
+    override fun onLoadingUiVisible(visible: Boolean) {
+        binding.progress.visible(visible)
+    }
+
+    override fun onEmptyUiVisible(visible: Boolean) {
+        binding.empty.visible(visible)
+    }
+
+    override fun onRecyclerVisible(visible: Boolean) {
+        binding.recycler.visible(visible)
     }
 
     override fun onQuoteSelected(sender: QuotesAdapter, quote: QuoteUiItem) {
-        Intent(this, QuoteDetailsActivity::class.java).apply {
-            putExtra("extra_quote_id", quote.id)
-        }.also { startActivity(it) }
+        presenter?.quoteSelected(quote)
     }
 }

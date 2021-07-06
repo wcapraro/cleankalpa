@@ -7,11 +7,6 @@ data class QuotesViewState(val isLoading: Boolean = false, val emptyUiVisible: B
     fun empty(e: Boolean) = copy(emptyUiVisible = e)
 }
 
-sealed class QuotesEvents {
-    object Noop: QuotesEvents()
-    data class QuoteDetail(val quoteId: Int): QuotesEvents()
-}
-
 data class QuoteUiItem(val id: Int, val quote: String, val author: String)
 
 fun Author.displayName(): String {

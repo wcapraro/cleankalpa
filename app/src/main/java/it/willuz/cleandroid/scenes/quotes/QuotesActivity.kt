@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuotesBinding
+import it.willuz.cleandroid.navigation.Navigation
+import it.willuz.cleandroid.navigation.toIntent
 import it.willuz.cleandroid.scenes.detail.QuoteDetailsActivity
 import it.willuz.cleandroid.util.BaseActivity
 import it.willuz.cleandroid.util.visible
@@ -24,6 +26,7 @@ class QuotesActivity : BaseActivity<QuotesViewModel>(), QuotesCallbacks {
 
         viewModel.viewState.observe(this) { onViewState(it) }
         viewModel.quotes.observe(this) { onQuotes(it) }
+        viewModel.routing.observe(this) { onRoute(it) }
     }
 
     override fun onStart() {
@@ -50,9 +53,18 @@ class QuotesActivity : BaseActivity<QuotesViewModel>(), QuotesCallbacks {
         adapter.setItems(quotes)
     }
 
+    private fun onRoute(navi: Navigation) {
+        when (navi) {
+            is Navigation.ToQuoteDetailsNavigation -> {
+                navi.toIntent(this)?.let {
+                    startActivity(it)
+                }
+            }
+            else -> { /* no navigation required */ }
+        }
+    }
+
     override fun onQuoteSelected(sender: QuotesAdapter, quote: QuoteUiItem) {
-        Intent(this, QuoteDetailsActivity::class.java).apply {
-            putExtra("extra_quote_id", quote.id)
-        }.also { startActivity(it) }
+        viewModel.onQuoteSelected(quote)
     }
 }

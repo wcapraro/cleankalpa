@@ -3,6 +3,7 @@ package it.willuz.cleandroid.scenes.detail
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuoteDetailsBinding
+import it.willuz.cleandroid.navigation.NavigationKeys
 import it.willuz.cleandroid.util.BaseActivity
 
 class QuoteDetailsActivity : BaseActivity<QuoteDetailsViewModel>() {
@@ -14,9 +15,10 @@ class QuoteDetailsActivity : BaseActivity<QuoteDetailsViewModel>() {
         val binding = ActivityQuoteDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        intent.extras?.getInt("extra_quote_id")?.let { quoteId ->
-            viewModel = ViewModelProvider(this, QuoteDetailsViewModelFactory(baseContext, quoteId))
-                .get(QuoteDetailsViewModel::class.java)
+        intent.extras?.getString(NavigationKeys.toQuoteDetails_KeyQuoteId)?.let { quoteId ->
+            viewModel = ViewModelProvider(this,
+                QuoteDetailsViewModelFactory(baseContext, quoteId.toInt()))
+                    .get(QuoteDetailsViewModel::class.java)
 
             viewModel.details.observe(this) {
                 binding.date.text = it.dateSaid

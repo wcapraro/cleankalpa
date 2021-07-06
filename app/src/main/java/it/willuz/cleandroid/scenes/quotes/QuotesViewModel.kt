@@ -7,6 +7,7 @@ import it.willuz.cleandroid.domain.GetAuthorUseCase
 import it.willuz.cleandroid.domain.GetRandomQuotesUseCase
 import it.willuz.cleandroid.domain.IGetRandomQuotesUseCase
 import it.willuz.cleandroid.data.repository.QuotesRepository
+import it.willuz.cleandroid.navigation.Navigation
 import it.willuz.cleandroid.util.DispatcherManager
 import it.willuz.cleandroid.util.IDispatcherManager
 import it.willuz.cleandroid.util.reassign
@@ -25,8 +26,8 @@ class QuotesViewModel(
     private var _quotes = MutableLiveData(listOf<QuoteUiItem>())
     val quotes: LiveData<List<QuoteUiItem>> get() = _quotes
 
-//    private var _events: MutableLiveData<QuotesEvents> = MutableLiveData(QuotesEvents.Noop)
-//    val events: LiveData<QuotesEvents> get() = _events
+    private var _routing: MutableLiveData<Navigation> = MutableLiveData(Navigation.None)
+    val routing: LiveData<Navigation> get() = _routing
 
     fun requestRefresh() {
         viewModelScope.launch(dispatcher.background) {
@@ -35,6 +36,10 @@ class QuotesViewModel(
             _quotes.postValue(items)
             _viewState.reassign { it.loading(false).empty(items.isEmpty()) }
         }
+    }
+
+    fun onQuoteSelected(quote: QuoteUiItem) {
+        _routing.postValue(Navigation.ToQuoteDetailsNavigation(quote.id))
     }
 
     private suspend fun getQuotesSuspending(count: Int): List<QuoteUiItem> {

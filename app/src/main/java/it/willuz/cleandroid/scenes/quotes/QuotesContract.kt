@@ -1,5 +1,6 @@
 package it.willuz.cleandroid.scenes.quotes
 
+import it.willuz.cleandroid.navigation.Navigation
 import it.willuz.cleandroid.util.*
 import kotlinx.coroutines.CoroutineScope
 
@@ -25,5 +26,5 @@ interface QuotesInteractorOutput: Viper.ViperInteractorOutput {
 }
 
 interface QuotesRoutingLogic: Viper.ViperRouter {
-    fun showQuoteDetails(quote: QuoteUiItem)
+    fun showQuoteDetails(quote: QuoteUiItem): Navigation
 }

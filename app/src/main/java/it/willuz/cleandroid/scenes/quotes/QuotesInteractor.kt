@@ -8,8 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class QuotesInteractor(presenter: QuotesInteractorOutput,
-                       private val useCase: IGetRandomQuotesUseCase,
-                       private val dispatcher: IDispatcherManager = DispatcherManager):
+                       private val useCase: IGetRandomQuotesUseCase):
     BaseViperInteractor<QuotesInteractorOutput>(presenter),
     QuotesBusinessLogic
 {

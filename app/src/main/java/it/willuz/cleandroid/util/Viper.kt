@@ -18,9 +18,7 @@ import java.lang.ref.WeakReference
 class Viper {
 
     // Router
-    interface ViperRouter {
-        val screen: WeakReference<Activity>
-    }
+    interface ViperRouter
 
     // Presenter
     interface ViperPresenter
@@ -112,12 +110,9 @@ abstract class BaseViperPresenter<V, I, R>(var view: V?): Viper.ViperPresenter,
 }
 
 /**
- * Base class for all the VIPER Router modules. Since the entry point of every Android app
- * is a [Activity]---and given that launching new activities needs a context to be available
- * first---every Router instance needs a [WeakReference] to an [Activity] in order to perform
- * routing-related tasks.
+ * Base class for all the VIPER Router modules.
  */
-abstract class BaseViperRouter(override val screen: WeakReference<Activity>): Viper.ViperRouter
+abstract class BaseViperRouter: Viper.ViperRouter
 
 
 

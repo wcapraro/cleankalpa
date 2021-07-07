@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import it.willuz.cleandroid.databinding.ActivityQuoteDetailsBinding
+import it.willuz.cleandroid.navigation.NavigationKeys
 
 class QuoteDetailsActivity : AppCompatActivity() {
 
@@ -14,7 +15,7 @@ class QuoteDetailsActivity : AppCompatActivity() {
         val binding = ActivityQuoteDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        intent.extras?.getInt("extra_quote_id")?.let { quoteId ->
+        intent.extras?.getString(NavigationKeys.toQuoteDetails_KeyQuoteId)?.toInt()?.let { quoteId ->
             viewModel = ViewModelProvider(this, QuoteDetailsViewModelFactory(baseContext, quoteId))
                 .get(QuoteDetailsViewModel::class.java)
 

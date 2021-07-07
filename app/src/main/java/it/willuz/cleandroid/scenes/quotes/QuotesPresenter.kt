@@ -1,16 +1,15 @@
 package it.willuz.cleandroid.scenes.quotes
 
-import android.app.Activity
 import android.content.Context
 import it.willuz.cleandroid.data.db.LocalDatabase
 import it.willuz.cleandroid.data.repository.QuotesRepository
 import it.willuz.cleandroid.domain.GetAuthorUseCase
 import it.willuz.cleandroid.domain.GetRandomQuotesUseCase
+import it.willuz.cleandroid.navigation.toIntent
 import it.willuz.cleandroid.util.BaseViperPresenter
 import it.willuz.cleandroid.util.DispatcherManager
 import it.willuz.cleandroid.util.IDispatcherManager
 import kotlinx.coroutines.launch
-import java.lang.ref.WeakReference
 
 class QuotesPresenter(view: QuotesView?,
     private val dispatcher: IDispatcherManager = DispatcherManager)
@@ -27,9 +26,7 @@ class QuotesPresenter(view: QuotesView?,
     }
 
     override fun createRouter(): QuotesRoutingLogic {
-        (view as? Activity)?.let {
-            return QuotesRouter(WeakReference(it))
-        } ?: throw error("Shall never happen")
+        return QuotesRouter()
     }
 
     override fun lifecycleOnCreate() {
@@ -49,7 +46,12 @@ class QuotesPresenter(view: QuotesView?,
     }
 
     override fun quoteSelected(item: QuoteUiItem) {
-        router?.showQuoteDetails(item)
+        router?.showQuoteDetails(item)?.let navi@{ navigation ->
+            val ctx = (view as? Context) ?: return@navi
+            navigation.toIntent(ctx)?.let {
+                ctx.startActivity(it)
+            }
+        }
     }
 
     override fun responseLoadNRandomQuotes(items: List<QuoteUiItem>) {

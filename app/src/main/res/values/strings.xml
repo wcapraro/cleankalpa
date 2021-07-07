@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CleanDroid</string>
+    <string name="app_name">CleanQuotes</string>
     <string name="quotes_empty_text">There\'s nothing here!\nTap the button to refresh</string>
     <string name="quotes_btn_refresh">Refresh</string>
 </resources>

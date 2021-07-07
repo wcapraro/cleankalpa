@@ -49,6 +49,7 @@
             tools:text="Date: 2/7/2021"
             style="@style/TextAppearance.AppCompat.Caption"
             android:textSize="22sp"
+            android:visibility="gone"
             />
 
         <TextView
